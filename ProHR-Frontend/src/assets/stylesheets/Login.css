@@ -1,0 +1,9 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.text{
+    text-align: center;
+    font-family:  'Mv Boli', sans-serif;
+}
