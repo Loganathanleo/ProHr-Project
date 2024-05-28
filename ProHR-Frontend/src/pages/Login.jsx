@@ -2,17 +2,64 @@ import React, { useState } from "react";
 import "../assets/stylesheets/Login.css";
 import { Button, Form, FormLabel, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
   const [signin, setSignin] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    navigate("/Home");
+  const [formData, setFormData] = useState({
+    name: "",
+    dob: "",
+    phone: "",
+    role: "",
+    email: "",
+    password: "",
+  });
+
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
 
-  const handleSignin = () => {
-    navigate("/Home");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("", formData)
+      .then((res) => {
+        console.log(res.data)
+        setSignin(true);
+      })
+      .catch((error) => console.log("Error: ", error));
+  };
+
+  const handleLoginChange = (e) => {
+    const { id, value } = e.target;
+    setLoginData((prevData) => ({ ...prevData, [id]: value }));
+  };
+
+  const handleSignin = (e) => {
+    e.preventDefault();
+    axios
+      .post("", loginData) 
+      .then((res) => {
+        if (res.data.success) {
+          navigate("/Home");
+        } else {
+          setError("Invalid email or password");
+        }
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+        setError("An error occurred. Please try again.");
+      });
   };
 
   return (
@@ -20,7 +67,6 @@ function Login() {
       className="d-flex flex-column justify-content-center align-items-center"
       style={{ height: "100vh" }}
     >
-    
       {!signin && (
         <div className="w-100">
           <div
@@ -28,53 +74,63 @@ function Login() {
             className="d-flex flex-column justify-content-evenly align-items-center"
           >
             <h3 className="text">Register yourself</h3>
-            <Form>
-              <Row>
+            <Form onSubmit={handleSubmit}>
+              <FormGroup as={Row}>
                 <FormLabel htmlFor="name">Name :</FormLabel>
                 <input
                   type="text"
                   id="name"
                   placeholder="Enter your name"
+                  onChange={handleChange}
                   required
                 />
-              </Row>
-              <Row>
+              </FormGroup>
+              <FormGroup as={Row}>
                 <FormLabel htmlFor="dob">Date of Birth :</FormLabel>
-                <input type="date" id="dob" />
-              </Row>
-              <Row>
-                <FormLabel htmlFor="phno">Contact No :</FormLabel>
+                <input type="date" id="dob" onChange={handleChange} />
+              </FormGroup>
+              <FormGroup as={Row}>
+                <FormLabel htmlFor="phone">Contact No :</FormLabel>
                 <input
                   type="tel"
-                  id="phno"
+                  id="phone"
                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                  onChange={handleChange}
                   required
                 />
-              </Row>
-              <Row>
+              </FormGroup>
+              <FormGroup as={Row}>
                 <FormLabel htmlFor="role">Role :</FormLabel>
-                <input type="text" id="role" Value="HR" readOnly />
-              </Row>
-              <Row>
+                <input
+                  type="text"
+                  id="role"
+                  value="HR"
+                  onChange={handleChange}
+                  readOnly
+                />
+              </FormGroup>
+              <FormGroup as={Row}>
                 <FormLabel htmlFor="email">Email :</FormLabel>
                 <input
                   type="email"
                   id="email"
                   placeholder="Enter your email address"
-                  style={{overflow: "hidden", textOverflow: "ellipsis" }}
+                  onChange={handleChange}
+                  style={{ overflow: "hidden", textOverflow: "ellipsis" }}
                   required
                 />
-              </Row>
-              <Row>
+              </FormGroup>
+              <FormGroup as={Row}>
                 <FormLabel htmlFor="password">Password :</FormLabel>
                 <input
                   type="text"
                   id="password"
+                  onChange={handleChange}
                   placeholder="Enter your password"
                   required
                 />
-              </Row>
-              <Button onClick={handleSubmit}>Sign Up</Button>
+              </FormGroup>
+              <Button type="submit">Sign Up</Button>
             </Form>
             <p>
               Already have an account?{" "}
@@ -93,26 +149,29 @@ function Login() {
             className="d-flex flex-column justify-content-evenly align-items-center"
           >
             <h3 className="text">Login please!!!</h3>
-            <Form>
-              <Row>
+            <Form onSubmit={handleSignin}>
+              <FormGroup as={Row}>
                 <FormLabel htmlFor="email">Email :</FormLabel>
                 <input
                   type="email"
                   id="email"
                   placeholder="Enter your email address"
+                  onChange={handleLoginChange}
                   required
                 />
-              </Row>
-              <Row>
+              </FormGroup>
+              <FormGroup as={Row}>
                 <FormLabel htmlFor="password">Password :</FormLabel>
                 <input
                   type="text"
                   id="password"
                   placeholder="Enter your password"
+                  onChange={handleLoginChange}
                   required
                 />
-              </Row>
-              <Button onClick={handleSignin}>Sign in</Button>
+              </FormGroup>
+              <Button type="submit">Sign in</Button>
+              {error && <p className="text-danger">{error}</p>}
             </Form>
             <p>
               Don't have an account?{" "}
