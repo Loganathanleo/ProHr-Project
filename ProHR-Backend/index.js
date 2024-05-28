@@ -1,17 +1,10 @@
-// backend/server.js
-const express = require('express');
-const mongoose = require('mongoose');
-
-const dotenv = require('dotenv');
-const cors = require('cors');
-const connectDB = require('./db');
-const registerModel = require('./models/register');
-
-
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const connectDB = require("./configs/db");
 
 // Load environment variables
 dotenv.config();
-
 // Connect to MongoDB
 connectDB();
 
@@ -21,10 +14,12 @@ const port = process.env.PORT || 5000;
 // Enable CORS
 app.use(cors());
 
-// Body parser middleware
+// middleware
 app.use(express.json());
 
 // Routes
+app.post("/api/register", require("./controllers/register"));
+app.post("/api/login", require("./controllers/login"));
 
 // Start the server
 app.listen(port, () => {
