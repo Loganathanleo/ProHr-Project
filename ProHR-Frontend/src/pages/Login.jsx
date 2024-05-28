@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../assets/stylesheets/Login.css";
-import { Button, Form, FormLabel, Row } from "react-bootstrap";
+import { Button, Form, FormGroup, FormLabel, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -12,7 +12,7 @@ function Login() {
     name: "",
     dob: "",
     phone: "",
-    role: "",
+    role: "HR",
     email: "",
     password: "",
   });
@@ -87,7 +87,7 @@ function Login() {
               </FormGroup>
               <FormGroup as={Row}>
                 <FormLabel htmlFor="dob">Date of Birth :</FormLabel>
-                <input type="date" id="dob" onChange={handleChange} />
+                <input type="date" id="dob" onChange={handleChange} required/>
               </FormGroup>
               <FormGroup as={Row}>
                 <FormLabel htmlFor="phone">Contact No :</FormLabel>
@@ -104,8 +104,7 @@ function Login() {
                 <input
                   type="text"
                   id="role"
-                  value="HR"
-                  onChange={handleChange}
+                  value={formData.role}
                   readOnly
                 />
               </FormGroup>
