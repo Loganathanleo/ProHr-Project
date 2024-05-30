@@ -1,5 +1,6 @@
 const Register = require("../models/register");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const loginController = async (req, res) => {
   const { email, password } = req.body;
@@ -12,9 +13,18 @@ const loginController = async (req, res) => {
     if (!match) {
       return res.status(400).json("Incorrect password");
     }
-    res.json(user);
+    if (match) {
+      jwt.sign(
+        { id: user._id, name: user.name, email: user.email },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: "3m" },
+        (err, token) => {
+          if (err) throw err.message;
+          res.json(token);
+        }
+      );
+    }
   } catch (error) {
-    console.error(error);
     res.status(500).send("Server error");
   }
 };

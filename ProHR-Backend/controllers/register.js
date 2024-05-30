@@ -26,7 +26,6 @@ const registerController = async (req, res) => {
     await user.save();
     res.json(user);
   } catch (error) {
-    console.log(error);
     res.status(500).send("Server error");
   }
 };
