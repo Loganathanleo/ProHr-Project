@@ -20,6 +20,7 @@ app.use(express.json());
 // Routes
 app.post("/api/register", require("./controllers/register"));
 app.post("/api/login", require("./controllers/login"));
+app.use("/api/employee", require("./controllers/exployeeController"));
 
 // Start the server
 app.listen(port, () => {
