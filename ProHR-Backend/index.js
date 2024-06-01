@@ -18,9 +18,9 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.post("/api/register", require("./controllers/register"));
-app.post("/api/login", require("./controllers/login"));
-app.use("/api/employee", require("./controllers/exployeeController"));
+app.use("/api/register", require("./routes/registerRoute"));
+app.use("/api/login", require("./routes/loginRoute"));
+app.use("/api/employee", require("./routes/employeeRoute"));
 
 // Start the server
 app.listen(port, () => {

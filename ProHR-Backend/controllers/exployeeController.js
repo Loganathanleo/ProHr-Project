@@ -1,7 +1,6 @@
-const router = require("express").Router();
 const Employee = require("../models/exployeeModel");
 
-router.post("/", async (req, res) => {
+const postEmployee = async (req, res) => {
   const {
     name,
     empid,
@@ -43,11 +42,11 @@ router.post("/", async (req, res) => {
   });
   await employee.save();
   res.json(employee);
-});
+};
 
-router.get("/", async (req, res) => {
+const getEmployee = async (req, res) => {
   const data = await Employee.find({});
   res.json({ data });
-});
+};
 
-module.exports = router;
+module.exports = { getEmployee, postEmployee };
