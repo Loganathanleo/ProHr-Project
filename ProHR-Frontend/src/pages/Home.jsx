@@ -12,8 +12,9 @@ function Home() {
   };
 
   useEffect(() => {
-    axios.get("").then((res) => {
-      setData(res.data);
+    axios.get("http://127.0.0.1:5000/api/employee").then((res) => {
+      console.log(res.data.data, "table data...........");
+      setData(res.data.data);
     });
   }, []);
   return (
@@ -29,7 +30,7 @@ function Home() {
           <thead>
             <tr>
               <th>Emp Name</th>
-              <th>Degree</th>
+              <th>Email</th>
               <th>Role</th>
               <th>Company Email</th>
               <th>Contact No</th>
@@ -38,7 +39,24 @@ function Home() {
             </tr>
           </thead>
           <tbody>
-            <tr></tr>
+            {data.map((index) => (
+              <tr key={index._id}>
+                <td>{index.name}</td>
+                <td>{index.email}</td>
+                <td>{index.jobrole}</td>
+                <td>{index.company_email}</td>
+                <td>{index.contactno}</td>
+                <td>
+                  <Button type="button" className="btn btn-success">Update</Button>
+                </td>
+                <td>
+                  <Button type="button" className="btn btn-danger">Delete</Button>
+                </td>
+                <td>
+                  <Button type="button" className="btn btn-info">Mark Attendance</Button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </div>

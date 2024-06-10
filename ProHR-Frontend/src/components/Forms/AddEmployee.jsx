@@ -7,18 +7,11 @@ function AddEmployee() {
   const [formData, setFormData] = useState({
     name: "",
     dob: "",
-    phone: "",
-    degree: "",
-    address: "",
-    city: "",
-    state: "",
-    country: "",
-    nation: "",
-    role: "",
+    contactno: "",
+    jobrole: "",
     email: "",
-    cemail: "",
-    aadhaar: "",
-    join: "",
+    company_email: "",
+    aadharno: "",
   });
 
   const handleChange = (e) => {
@@ -33,7 +26,7 @@ function AddEmployee() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("", formData);
+      const response = await axios.post("http://127.0.0.1:5000/api/employee", formData);
 
       if (response.status === 200) {
         setSuccessMessage("Employee was added successfully");
@@ -67,42 +60,18 @@ function AddEmployee() {
           <input type="date" id="dob" onChange={handleChange} />
         </div>
         <div>
-          <FormLabel htmlFor="phno">Contact No :</FormLabel>
+          <FormLabel htmlFor="contactno">Contact No :</FormLabel>
           <input
             type="tel"
-            id="phno"
+            id="contactno"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             onChange={handleChange}
             required
           />
         </div>
         <div>
-          <FormLabel htmlFor="degree">Degree :</FormLabel>
-          <input type="text" id="degree" onChange={handleChange} />
-        </div>
-        <div>
-          <FormLabel htmlFor="address">Address :</FormLabel>
-          <input type="textbox" id="address" onChange={handleChange} />
-        </div>
-        <div>
-          <FormLabel htmlFor="city">City :</FormLabel>
-          <input type="text" id="city" onChange={handleChange} />
-        </div>
-        <div>
-          <FormLabel htmlFor="state">State :</FormLabel>
-          <input type="text" id="state" onChange={handleChange} />
-        </div>
-        <div>
-          <FormLabel htmlFor="country">Country :</FormLabel>
-          <input type="text" id="country" onChange={handleChange} />
-        </div>
-        <div>
-          <FormLabel htmlFor="nation">Nationality :</FormLabel>
-          <input type="text" id="nation" onChange={handleChange} />
-        </div>
-        <div>
-          <FormLabel htmlFor="role">Role :</FormLabel>
-          <input type="text" id="role" onChange={handleChange} required />
+          <FormLabel htmlFor="jobrole">Role :</FormLabel>
+          <input type="text" id="jobrole" onChange={handleChange} required />
         </div>
         <div>
           <FormLabel htmlFor="email">Email :</FormLabel>
@@ -116,10 +85,10 @@ function AddEmployee() {
           />
         </div>
         <div>
-          <FormLabel htmlFor="cemail">Company Email :</FormLabel>
+          <FormLabel htmlFor="company_email">Company Email :</FormLabel>
           <input
             type="email"
-            id="cemail"
+            id="company_email"
             placeholder="Enter company email address"
             style={{ overflow: "hidden", textOverflow: "ellipsis" }}
             onChange={handleChange}
@@ -127,18 +96,14 @@ function AddEmployee() {
           />
         </div>
         <div>
-          <FormLabel htmlFor="aadhaar">Aadhaar :</FormLabel>
+          <FormLabel htmlFor="aadharno">Aadhaar :</FormLabel>
           <input
             type="text"
-            id="aadhaar"
+            id="aadharno"
             pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
             onChange={handleChange}
             required
           />
-        </div>
-        <div>
-          <FormLabel htmlFor="join">Date of Joining :</FormLabel>
-          <input type="date" id="join" onChange={handleChange} />
         </div>
         <Button onClick={handleSubmit}>Sign Up</Button>
       </Form>

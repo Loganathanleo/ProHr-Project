@@ -11,7 +11,7 @@ function Login() {
   const [formData, setFormData] = useState({
     name: "",
     dob: "",
-    phone: "",
+    contactno: "",
     role: "HR",
     email: "",
     password: "",
@@ -29,10 +29,10 @@ function Login() {
     setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    axios
-      .post("", formData)
+    await axios
+      .post("http://127.0.0.1:5000/api/register", formData)
       .then((res) => {
         console.log(res.data)
         setSignin(true);
@@ -45,12 +45,13 @@ function Login() {
     setLoginData((prevData) => ({ ...prevData, [id]: value }));
   };
 
-  const handleSignin = (e) => {
+  const handleSignin = async(e) => {
+    console.log(loginData, "logindataaaaaaaaaa");
     e.preventDefault();
-    axios
-      .post("", loginData) 
+    await axios
+      .post("http://127.0.0.1:5000/api/login", loginData) 
       .then((res) => {
-        if (res.data.success) {
+        if (res.data) {
           navigate("/Home");
         } else {
           setError("Invalid email or password");
@@ -90,11 +91,10 @@ function Login() {
                 <input type="date" id="dob" onChange={handleChange} required/>
               </FormGroup>
               <FormGroup as={Row}>
-                <FormLabel htmlFor="phone">Contact No :</FormLabel>
+                <FormLabel htmlFor="contactno">Contact No :</FormLabel>
                 <input
                   type="tel"
-                  id="phone"
-                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                  id="contactno"
                   onChange={handleChange}
                   required
                 />
