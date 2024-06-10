@@ -18,35 +18,44 @@ const postEmployee = async (req, res) => {
     country,
     nationality,
   } = req.body;
-  if (
-    !name ||
-    !contactno ||
-    !jobrole ||
-    !email ||
-    !company_email ||
-    !aadharno
-  ) {
-    return res.json("all fields required");
+
+  try {
+    if (
+      !name ||
+      !contactno ||
+      !jobrole ||
+      !email ||
+      !company_email ||
+      !aadharno
+    ) {
+      return res.json("all fields required");
+    }
+    const match = await Employee.findOne({ company_email });
+    if (match) {
+      return res.json("employee alredy exist");
+    }
+    const employee = await Employee.create({
+      name,
+      contactno,
+      jobrole,
+      email,
+      company_email,
+      aadharno,
+    });
+    await employee.save();
+    res.json(employee);
+  } catch (error) {
+    res.json(error);
   }
-  const match = await Employee.findOne({ company_email });
-  if (match) {
-    return res.json("employee alredy exist");
-  }
-  const employee = await Employee.create({
-    name,
-    contactno,
-    jobrole,
-    email,
-    company_email,
-    aadharno,
-  });
-  await employee.save();
-  res.json(employee);
 };
 
 const getEmployee = async (req, res) => {
-  const data = await Employee.find({});
-  res.json({ data });
+  try {
+    const data = await Employee.find({});
+    res.json({ data });
+  } catch (error) {
+    res.json(error);
+  }
 };
 
 module.exports = { getEmployee, postEmployee };
