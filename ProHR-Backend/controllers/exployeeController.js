@@ -49,7 +49,7 @@ const postEmployee = async (req, res) => {
   }
 };
 
-const getEmployee = async (req, res) => {
+const getEmployees = async (req, res) => {
   try {
     const data = await Employee.find({});
     res.json({ data });
@@ -58,4 +58,44 @@ const getEmployee = async (req, res) => {
   }
 };
 
-module.exports = { getEmployee, postEmployee };
+const getSingleEmployee = async (req, res) => {
+  const emp_id = req.params.id;
+  try {
+    const employee = await Employee.findById(emp_id);
+    res.json(employee);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const updateEmployee = async (req, res) => {
+  try {
+    const employee = await Employee.findByIdAndUpdate(req.params.id, req.body);
+    if (!employee) {
+      return res.json("employee not found");
+    }
+    res.json(employee);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+const deleteEmployee = async (req, res) => {
+  try {
+    const employee = await Employee.findByIdAndDelete(req.params.id);
+    if (!employee) {
+      return res.json("employee not found");
+    }
+    res.json("deleted");
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+module.exports = {
+  getSingleEmployee,
+  getEmployees,
+  postEmployee,
+  updateEmployee,
+  deleteEmployee,
+};
