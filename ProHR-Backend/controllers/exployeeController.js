@@ -71,12 +71,13 @@ const getSingleEmployee = async (req, res) => {
 
 const updateEmployee = async (req, res) => {
   try {
-    const employee = await Employee.findByIdAndUpdate(req.params.id, req.body);
+    const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     if (!employee) {
       return res.json("employee not found");
     }
-    const updatedEmployee = await Employee.findById(req.params.id);
-    res.json({ updated: updatedEmployee });
+    res.json({ updated: employee });
   } catch (error) {
     res.json(error);
   }
