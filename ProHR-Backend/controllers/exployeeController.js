@@ -62,6 +62,7 @@ const getSingleEmployee = async (req, res) => {
   const emp_id = req.params.id;
   try {
     const employee = await Employee.findById(emp_id);
+    if (!employee) return res.json("employee not found");
     res.json(employee);
   } catch (error) {
     res.json(error);
@@ -74,7 +75,8 @@ const updateEmployee = async (req, res) => {
     if (!employee) {
       return res.json("employee not found");
     }
-    res.json(employee);
+    const updatedEmployee = await Employee.findById(req.params.id);
+    res.json({ updated: updatedEmployee });
   } catch (error) {
     res.json(error);
   }
@@ -86,7 +88,7 @@ const deleteEmployee = async (req, res) => {
     if (!employee) {
       return res.json("employee not found");
     }
-    res.json("deleted");
+    res.json("employee deleted");
   } catch (error) {
     res.json(error);
   }
