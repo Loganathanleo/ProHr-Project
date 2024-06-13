@@ -11,9 +11,22 @@ function Home() {
     navigate("/Add");
   };
 
+  const handleUpdate = (item) => {
+    navigate("/Update", {state: {item}});
+  };
+
+  const handleDelete = (item) => {
+    axios.delete(`http://127.0.0.1:5000/api/employee/${item._id}`)
+      .then((res) => {
+        setData(data.filter((emp) => emp._id !== item._id));
+      })
+      .catch((err) => {
+        console.error("Error deleting the employee:", err);
+      });
+  };
+
   useEffect(() => {
     axios.get("http://127.0.0.1:5000/api/employee").then((res) => {
-      console.log(res.data.data, "table data...........");
       setData(res.data.data);
     });
   }, []);
@@ -47,10 +60,10 @@ function Home() {
                 <td>{index.company_email}</td>
                 <td>{index.contactno}</td>
                 <td>
-                  <Button type="button" className="btn btn-success">Update</Button>
+                  <Button type="button" className="btn btn-success" onClick={() => handleUpdate(index)}>Update</Button>
                 </td>
                 <td>
-                  <Button type="button" className="btn btn-danger">Delete</Button>
+                  <Button type="button" className="btn btn-danger" onClick={() => handleDelete(index)}>Delete</Button>
                 </td>
                 <td>
                   <Button type="button" className="btn btn-info">Mark Attendance</Button>

@@ -1,38 +1,42 @@
-import React, { useState } from "react";
 import axios from "axios";
-import { Alert } from "react-bootstrap";
-import { Button, Form, FormLabel } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { Alert, Button, Form, FormLabel } from "react-bootstrap";
 
-function AddEmployee() {
-  
+function Update() {
+  const location = useLocation();
+  const { item } = location.state || {};
+
+  console.log(item,"...........");
+
   const [formData, setFormData] = useState({
-    name: "",
-    dob: "",
-    contactno: "",
-    jobrole: "",
-    email: "",
-    company_email: "",
-    aadharno: "",
+    name: item?.name || "",
+    dob: item?.dob || "",
+    contactno: item?.contactno || "",
+    jobrole: item?.jobrole || "",
+    email: item?.email || "",
+    company_email: item?.company_email || "",
+    aadharno: item?.aadharno || "",
   });
+
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
 
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://127.0.0.1:5000/api/employee/", formData);
+      const response = await axios.put(`http://127.0.0.1:5000/api/employee/${item._id}`, formData);
 
       if (response.status === 200) {
-        setSuccessMessage("Employee was added successfully");
+        setSuccessMessage("Employee data was updated successfully");
       } else {
-        setErrorMessage("Failed to add employee. Please try again.");
+        setErrorMessage("Failed to update employee. Please try again.");
       }
     } catch (error) {
       setErrorMessage("An error occurred. Please try again.");
@@ -41,7 +45,7 @@ function AddEmployee() {
 
   return (
     <div>
-      <h3>Add Employee</h3>
+      <h3>Update Employee</h3>
       {successMessage && <Alert variant="success">{successMessage}</Alert>}
       {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
       <Form onSubmit={handleSubmit}>
@@ -50,37 +54,39 @@ function AddEmployee() {
           <input
             type="text"
             id="name"
+            value={formData.name}
             placeholder="Enter the employee name"
-            style={{ overflow: "hidden", textOverflow: "ellipsis" }}
             onChange={handleChange}
             required
           />
-        </div>
-        <div>
-          <FormLabel htmlFor="dob">Date of Birth :</FormLabel>
-          <input type="date" id="dob" onChange={handleChange} />
         </div>
         <div>
           <FormLabel htmlFor="contactno">Contact No :</FormLabel>
           <input
             type="tel"
             id="contactno"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            value={formData.contactno}
             onChange={handleChange}
             required
           />
         </div>
         <div>
           <FormLabel htmlFor="jobrole">Role :</FormLabel>
-          <input type="text" id="jobrole" onChange={handleChange} required />
+          <input
+            type="text"
+            id="jobrole"
+            value={formData.jobrole}
+            onChange={handleChange}
+            required
+          />
         </div>
         <div>
           <FormLabel htmlFor="email">Email :</FormLabel>
           <input
             type="email"
             id="email"
+            value={formData.email}
             placeholder="Enter email address"
-            style={{ overflow: "hidden", textOverflow: "ellipsis" }}
             onChange={handleChange}
             required
           />
@@ -90,8 +96,8 @@ function AddEmployee() {
           <input
             type="email"
             id="company_email"
+            value={formData.company_email}
             placeholder="Enter company email address"
-            style={{ overflow: "hidden", textOverflow: "ellipsis" }}
             onChange={handleChange}
             required
           />
@@ -101,15 +107,16 @@ function AddEmployee() {
           <input
             type="text"
             id="aadharno"
+            value={formData.aadharno}
             pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
             onChange={handleChange}
             required
           />
         </div>
-        <Button onClick={handleSubmit}>Sign Up</Button>
+        <Button type="submit">Update</Button>
       </Form>
     </div>
   );
 }
 
-export default AddEmployee;
+export default Update;
