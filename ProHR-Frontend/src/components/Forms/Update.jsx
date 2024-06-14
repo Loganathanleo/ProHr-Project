@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Alert, Button, Form, FormLabel } from "react-bootstrap";
 
 function Update() {
   const location = useLocation();
   const { item } = location.state || {};
+  const navigate = useNavigate();
 
   console.log(item,"...........");
 
@@ -35,6 +36,7 @@ function Update() {
 
       if (response.status === 200) {
         setSuccessMessage("Employee data was updated successfully");
+        navigate("/Home");
       } else {
         setErrorMessage("Failed to update employee. Please try again.");
       }
@@ -108,7 +110,6 @@ function Update() {
             type="text"
             id="aadharno"
             value={formData.aadharno}
-            pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
             onChange={handleChange}
             required
           />

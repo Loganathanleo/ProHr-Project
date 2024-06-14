@@ -46,7 +46,6 @@ function Login() {
   };
 
   const handleSignin = async(e) => {
-    console.log(loginData, "logindataaaaaaaaaa");
     e.preventDefault();
     await axios
       .post("http://127.0.0.1:5000/api/login", loginData) 

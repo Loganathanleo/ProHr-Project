@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Alert } from "react-bootstrap";
 import { Button, Form, FormLabel } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function AddEmployee() {
-  
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     dob: "",
@@ -31,6 +32,7 @@ function AddEmployee() {
 
       if (response.status === 200) {
         setSuccessMessage("Employee was added successfully");
+        navigate("/Home");
       } else {
         setErrorMessage("Failed to add employee. Please try again.");
       }
@@ -101,7 +103,6 @@ function AddEmployee() {
           <input
             type="text"
             id="aadharno"
-            pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
             onChange={handleChange}
             required
           />
