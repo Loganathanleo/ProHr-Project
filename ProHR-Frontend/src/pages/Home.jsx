@@ -25,6 +25,10 @@ function Home() {
       });
   };
 
+  const handleAttendance = (item) => {
+    navigate("/Attendance", {state: {item}});
+  };
+
   useEffect(() => {
     axios.get("http://127.0.0.1:5000/api/employee").then((res) => {
       setData(res.data.data);
@@ -66,7 +70,7 @@ function Home() {
                   <Button type="button" className="btn btn-danger" onClick={() => handleDelete(index)}>Delete</Button>
                 </td>
                 <td>
-                  <Button type="button" className="btn btn-info">Mark Attendance</Button>
+                  <Button type="button" className="btn btn-info" onClick={() => handleAttendance(index)}>Mark Attendance</Button>
                 </td>
               </tr>
             ))}
