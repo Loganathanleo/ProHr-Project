@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Alert } from "react-bootstrap";
-import { Button, Form, FormLabel } from "react-bootstrap";
+import { Alert, Button, Form, FormLabel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import "../assets/stylesheets/AddEmployee.css"; // Import the new CSS file
 
 function AddEmployee() {
   const navigate = useNavigate();
@@ -42,72 +42,80 @@ function AddEmployee() {
   };
 
   return (
-    <div>
+    <div className="container">
       <h3>Add Employee</h3>
-      {successMessage && <Alert variant="success">{successMessage}</Alert>}
-      {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+      {successMessage && <Alert variant="success" className="alert">{successMessage}</Alert>}
+      {errorMessage && <Alert variant="danger" className="alert">{errorMessage}</Alert>}
       <Form onSubmit={handleSubmit}>
-        <div>
-          <FormLabel htmlFor="name">Employee Name :</FormLabel>
+        <div className="form-group">
+          <FormLabel htmlFor="name" className="form-label">Employee Name :</FormLabel>
           <input
             type="text"
             id="name"
+            className="input"
             placeholder="Enter the employee name"
-            style={{ overflow: "hidden", textOverflow: "ellipsis" }}
             onChange={handleChange}
             required
           />
         </div>
-        <div>
-          <FormLabel htmlFor="dob">Date of Birth :</FormLabel>
-          <input type="date" id="dob" onChange={handleChange} />
+        <div className="form-group">
+          <FormLabel htmlFor="dob" className="form-label">Date of Birth :</FormLabel>
+          <input type="date" id="dob" className="input" onChange={handleChange} />
         </div>
-        <div>
-          <FormLabel htmlFor="contactno">Contact No :</FormLabel>
+        <div className="form-group">
+          <FormLabel htmlFor="contactno" className="form-label">Contact No :</FormLabel>
           <input
             type="tel"
             id="contactno"
+            className="input"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             onChange={handleChange}
             required
           />
         </div>
-        <div>
-          <FormLabel htmlFor="jobrole">Role :</FormLabel>
-          <input type="text" id="jobrole" onChange={handleChange} required />
+        <div className="form-group">
+          <FormLabel htmlFor="jobrole" className="form-label">Role :</FormLabel>
+          <input
+            type="text"
+            id="jobrole"
+            className="input"
+            onChange={handleChange}
+            required
+          />
         </div>
-        <div>
-          <FormLabel htmlFor="email">Email :</FormLabel>
+        <div className="form-group">
+          <FormLabel htmlFor="email" className="form-label">Email :</FormLabel>
           <input
             type="email"
             id="email"
+            className="input"
             placeholder="Enter email address"
-            style={{ overflow: "hidden", textOverflow: "ellipsis" }}
             onChange={handleChange}
             required
           />
         </div>
-        <div>
-          <FormLabel htmlFor="company_email">Company Email :</FormLabel>
+        <div className="form-group">
+          <FormLabel htmlFor="company_email" className="form-label">Company Email :</FormLabel>
           <input
             type="email"
             id="company_email"
+            className="input"
             placeholder="Enter company email address"
-            style={{ overflow: "hidden", textOverflow: "ellipsis" }}
             onChange={handleChange}
             required
           />
         </div>
-        <div>
-          <FormLabel htmlFor="aadharno">Aadhaar :</FormLabel>
+        <div className="form-group">
+          <FormLabel htmlFor="aadharno" className="form-label">Aadhaar :</FormLabel>
           <input
             type="text"
             id="aadharno"
+            className="input"
             onChange={handleChange}
             required
           />
         </div>
-        <Button onClick={handleSubmit}>Sign Up</Button>
+        <Button className="button" type="submit">Sign Up</Button>
       </Form>
     </div>
   );
