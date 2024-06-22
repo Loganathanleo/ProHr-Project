@@ -21,7 +21,7 @@ app.use(express.json());
 app.use("/api/register", require("./routes/registerRoute"));
 app.use("/api/login", require("./routes/loginRoute"));
 app.use("/api/employee", require("./routes/employeeRoute"));
-
+app.use("/api/attendance", require("./routes/attendanceRoute"));
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

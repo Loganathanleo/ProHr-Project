@@ -26,26 +26,29 @@ const employeeSchema = new mongoose.Schema({
     type: String,
   },
   dateofjoining: {
-    type: Number,
+    type: Date,
   },
   education: {
-    type: Number,
+    type: String,
   },
   address: {
-    type: Number,
+    type: String,
   },
   city: {
-    type: Number,
+    type: String,
   },
   state: {
-    type: Number,
+    type: String,
   },
   country: {
-    type: Number,
+    type: String,
   },
   nationality: {
-    type: Number,
+    type: String,
   },
+  // attendace: [{ type: mongoose.Schema.Types.ObjectId, ref: "Attendace" }],
 });
 
-module.exports = mongoose.model("Employee", employeeSchema);
+const Employee = mongoose.model("Employee", employeeSchema);
+
+module.exports = Employee;
