@@ -17,7 +17,7 @@ function Attendance() {
     const { name, value } = event.target;
     const updatedFormData = [...formData];
     if (!updatedFormData[index]) {
-      updatedFormData[index] = {};
+      updatedFormData[index] = { employeeId: data[index]._id };
     }
     updatedFormData[index][name] = value;
     setFormData(updatedFormData);
