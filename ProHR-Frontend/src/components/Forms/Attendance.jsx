@@ -1,104 +1,110 @@
-import React, { useState } from "react";
-import { Form, FormLabel, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Table, Button } from "react-bootstrap";
 
 function Attendance() {
-  const [absent, setAbsent] = useState(false);
-  const [leaveType, setLeaveType] = useState("");
-  const [remark, setRemark] = useState("");
-  const [attendance, setAttendance] = useState("Present");
-  const { item } = location.state || {};
+  const [data, setData] = useState([]);
 
-  const handleAttendanceChange = (event) => {
-    setAttendance(event.target.value);
-    setAbsent(event.target.value === "Absent");
-  };
+  useEffect(() => {
+    axios.get("http://127.0.0.1:5000/api/employee").then((res) => {
+      setData(res.data.data);
+    });
+  }, []);
 
-  const handleLeaveTypeChange = (event) => {
-    setLeaveType(event.target.value);
-  };
+  const [formData, setFormData] = useState([]);
 
-  const handleRemarkChange = (event) => {
-    setRemark(event.target.value);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const formData = {
-      attendance,
-      leaveType: absent ? leaveType : null,
-      remark: absent ? remark : null,
-    };
-
-    try {
-      const response = await axios.post("", formData);
-      console.log("Success:", response.data);
-    } catch (error) {
-      console.error("Error:", error);
+  const handleInputChange = (index, event) => {
+    const { name, value } = event.target;
+    const updatedFormData = [...formData];
+    if (!updatedFormData[index]) {
+      updatedFormData[index] = {};
     }
+    updatedFormData[index][name] = value;
+    setFormData(updatedFormData);
+  };
+
+  const handleSubmit = () => {
+    axios.post("http://127.0.0.1:5000/api/attendance", formData).then((res) => {
+      console.log("Data submitted successfully:", res.data);
+    }).catch((err) => {
+      console.error("Error submitting data:", err);
+    });
   };
 
   return (
     <div>
-      <Form onSubmit={handleSubmit}>
-        <div>
-          <FormLabel htmlFor="Attendance">Attendance:</FormLabel>
-          <input
-            type="radio"
-            id="attendancePresent"
-            name="attendance"
-            value="Present"
-            checked={attendance === "Present"}
-            onChange={handleAttendanceChange}
-          />
-          Present
-          <input
-            type="radio"
-            id="attendanceAbsent"
-            name="attendance"
-            value="Absent"
-            checked={attendance === "Absent"}
-            onChange={handleAttendanceChange}
-          />
-          Absent
-        </div>
-        {absent && (
-          <div>
-            <div>
-              <FormLabel htmlFor="leave">Leave Type:</FormLabel>
-              <input
-                type="radio"
-                id="leaveSick"
-                name="leave"
-                value="Sick Leave"
-                checked={leaveType === "Sick Leave"}
-                onChange={handleLeaveTypeChange}
-              />
-              Sick Leave
-              <input
-                type="radio"
-                id="leaveCasual"
-                name="leave"
-                value="Casual Leave"
-                checked={leaveType === "Casual Leave"}
-                onChange={handleLeaveTypeChange}
-              />
-              Casual Leave
-            </div>
-            <div>
-              <FormLabel htmlFor="remark">Remark:</FormLabel>
-              <input
-                type="textbox"
-                id="remark"
-                value={remark}
-                onChange={handleRemarkChange}
-              />
-            </div>
-          </div>
-        )}
-        <Button type="submit">Submit</Button>
-      </Form>
+      <Table className="table table-striped table-hover">
+        <thead className="thead-dark">
+          <tr>
+            <th>Emp Name</th>
+            <th>Attendance</th>
+            <th>Sick Leave</th>
+            <th>Casual Leave</th>
+            <th>Remark</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((employee, index) => (
+            <tr key={employee._id}>
+              <td>{employee.name}</td>
+              <td>
+                <input
+                  type="radio"
+                  name={`attendance-${index}`}
+                  value="Present"
+                  onChange={(e) => handleInputChange(index, e)}
+                /> Present
+                <input
+                  type="radio"
+                  name={`attendance-${index}`}
+                  value="Absent"
+                  onChange={(e) => handleInputChange(index, e)}
+                /> Absent
+              </td>
+              <td>
+                <input
+                  type="radio"
+                  name={`sickLeave-${index}`}
+                  value="true"
+                  onChange={(e) => handleInputChange(index, e)}
+                  disabled={formData[index]?.[`attendance-${index}`] !== "Absent"}
+                /> Yes
+                <input
+                  type="radio"
+                  name={`sickLeave-${index}`}
+                  value="false"
+                  onChange={(e) => handleInputChange(index, e)}
+                  disabled={formData[index]?.[`attendance-${index}`] !== "Absent"}
+                /> No
+              </td>
+              <td>
+                <input
+                  type="radio"
+                  name={`casualLeave-${index}`}
+                  value="true"
+                  onChange={(e) => handleInputChange(index, e)}
+                  disabled={formData[index]?.[`attendance-${index}`] !== "Absent"}
+                /> Yes
+                <input
+                  type="radio"
+                  name={`casualLeave-${index}`}
+                  value="false"
+                  onChange={(e) => handleInputChange(index, e)}
+                  disabled={formData[index]?.[`attendance-${index}`] !== "Absent"}
+                /> No
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name={`remark-${index}`}
+                  onChange={(e) => handleInputChange(index, e)}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+      <Button onClick={handleSubmit}>Submit</Button>
     </div>
   );
 }

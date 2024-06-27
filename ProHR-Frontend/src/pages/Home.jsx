@@ -3,10 +3,12 @@ import axios from "axios";
 import { Greeting } from "../components/greeting/greeting";
 import { Button, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import "../assets/stylesheets/home.css"; // Import the new CSS file
+import "../assets/stylesheets/home.css";
+import Attendance from "../components/Forms/Attendance";
 
 function Home() {
   const [data, setData] = useState([]);
+  const [attendance, setAttendance] = useState(false);
   const navigate = useNavigate();
 
   const handleAdd = () => {
@@ -28,10 +30,6 @@ function Home() {
       });
   };
 
-  const handleAttendance = (item) => {
-    navigate("/Attendance", {state: {item}});
-  };
-
   useEffect(() => {
     axios.get("http://127.0.0.1:5000/api/employee").then((res) => {
       setData(res.data.data);
@@ -50,55 +48,62 @@ function Home() {
           </Button>
         </div>
       </div>
-      <div>
-        <Table className="table table-striped table-hover">
-          <thead className="thead-dark">
-            <tr>
-              <th>Emp Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Company Email</th>
-              <th>Contact No</th>
-              <th colSpan={2}>Actions</th>
-              <th>Attendance</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((index) => (
-              <tr key={index._id}>
-                <td>{index.name}</td>
-                <td>{index.email}</td>
-                <td>{index.jobrole}</td>
-                <td>{index.company_email}</td>
-                <td>{index.contactno}</td>
-                <td>
-                  <Button
-                    type="button"
-                    className="btn btn-success"
-                    onClick={() => handleUpdate(index)}
-                  >
-                    Update
-                  </Button>
-                </td>
-                <td>
-                  <Button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => handleDelete(index)}
-                  >
-                    Delete
-                  </Button>
-                </td>
-                <td>
-                  <Button type="button" className="btn btn-info">
-                    Mark Attendance
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+      <div className="text-center mb-4">
+        <Button variant="link" onClick={() => setAttendance(false)}>
+          Employee Details
+        </Button>
+        <Button variant="link" onClick={() => setAttendance(true)}>
+          Attendance
+        </Button>
       </div>
+      {!attendance && (
+        <div>
+          <Table className="table table-striped table-hover">
+            <thead className="thead-dark">
+              <tr>
+                <th>Emp Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Company Email</th>
+                <th>Contact No</th>
+                <th colSpan={2}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((index) => (
+                <tr key={index._id}>
+                  <td>{index.name}</td>
+                  <td>{index.email}</td>
+                  <td>{index.jobrole}</td>
+                  <td>{index.company_email}</td>
+                  <td>{index.contactno}</td>
+                  <td>
+                    <Button
+                      type="button"
+                      className="btn btn-success"
+                      onClick={() => handleUpdate(index)}
+                    >
+                      Update
+                    </Button>
+                  </td>
+                  <td>
+                    <Button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(index)}
+                    >
+                      Delete
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      )}
+      {attendance && (
+        <Attendance />
+      )}
     </div>
   );
 }
