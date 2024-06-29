@@ -1,104 +1,117 @@
-import React, { useState } from "react";
-import { Form, FormLabel, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Table, Button } from "react-bootstrap";
 
 function Attendance() {
-  const [absent, setAbsent] = useState(false);
-  const [leaveType, setLeaveType] = useState("");
-  const [remark, setRemark] = useState("");
-  const [attendance, setAttendance] = useState("Present");
-  // const { item } = location.state || {};
 
-  const handleAttendanceChange = (event) => {
-    setAttendance(event.target.value);
-    setAbsent(event.target.value === "Absent");
-  };
+  const [data, setData] = useState([]);
+  const [formData, setFormData] = useState([]);
 
-  const handleLeaveTypeChange = (event) => {
-    setLeaveType(event.target.value);
-  };
+  useEffect(() => {
+    axios.get("http://127.0.0.1:5000/api/employee").then((res) => {
+      setData(res.data.data);
+    });
+  }, []);
 
-  const handleRemarkChange = (event) => {
-    setRemark(event.target.value);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const formData = {
-      attendance,
-      leaveType: absent ? leaveType : null,
-      remark: absent ? remark : null,
-    };
-
-    try {
-      const response = await axios.post("", formData);
-      console.log("Success:", response.data);
-    } catch (error) {
-      console.error("Error:", error);
+  const handleInputChange = (index, event) => {
+    const { name, value } = event.target;
+    const updatedFormData = [...formData];
+    if (!updatedFormData[index]) {
+      updatedFormData[index] = { 
+        employee_id: data[index]._id,
+      };
     }
+    updatedFormData[index][name] = value;
+
+    if (name === `attendance-${index}` && value === "Present") {
+      updatedFormData[index][`sickleave-${index}`] = "false";
+      updatedFormData[index][`casualleave-${index}`] = "false";
+    }
+
+    setFormData(updatedFormData);
+  };
+
+  const handleSubmit = () => {
+    const formattedData = formData.map((entry) => ({
+      employee_id: entry.employee_id,
+      attendance: entry[`attendance-${data.findIndex(emp => emp._id === entry.employee_id)}`],
+      sickleave: entry[`sickleave-${data.findIndex(emp => emp._id === entry.employee_id)}`] === "true",
+      casualleave: entry[`casualleave-${data.findIndex(emp => emp._id === entry.employee_id)}`] === "true"
+    }));
+
+    axios.post("http://127.0.0.1:5000/api/attendance", formattedData).then((res) => {
+      console.log("Data submitted successfully:", res.data);
+    }).catch((err) => {
+      console.error("Error submitting data:", err);
+    });
   };
 
   return (
     <div>
-      <Form onSubmit={handleSubmit}>
-        <div>
-          <FormLabel htmlFor="Attendance">Attendance:</FormLabel>
-          <input
-            type="radio"
-            id="attendancePresent"
-            name="attendance"
-            value="Present"
-            checked={attendance === "Present"}
-            onChange={handleAttendanceChange}
-          />
-          Present
-          <input
-            type="radio"
-            id="attendanceAbsent"
-            name="attendance"
-            value="Absent"
-            checked={attendance === "Absent"}
-            onChange={handleAttendanceChange}
-          />
-          Absent
-        </div>
-        {absent && (
-          <div>
-            <div>
-              <FormLabel htmlFor="leave">Leave Type:</FormLabel>
-              <input
-                type="radio"
-                id="leaveSick"
-                name="leave"
-                value="Sick Leave"
-                checked={leaveType === "Sick Leave"}
-                onChange={handleLeaveTypeChange}
-              />
-              Sick Leave
-              <input
-                type="radio"
-                id="leaveCasual"
-                name="leave"
-                value="Casual Leave"
-                checked={leaveType === "Casual Leave"}
-                onChange={handleLeaveTypeChange}
-              />
-              Casual Leave
-            </div>
-            <div>
-              <FormLabel htmlFor="remark">Remark:</FormLabel>
-              <input
-                type="textbox"
-                id="remark"
-                value={remark}
-                onChange={handleRemarkChange}
-              />
-            </div>
-          </div>
-        )}
-        <Button type="submit">Submit</Button>
-      </Form>
+      <Table className="table table-striped table-hover">
+        <thead className="thead-dark">
+          <tr>
+            <th>Emp Name</th>
+            <th>Attendance</th>
+            <th>Sick Leave</th>
+            <th>Casual Leave</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((employee, index) => (
+            <tr key={employee._id}>
+              <td>{employee.name}</td>
+              <td>
+                <input
+                  type="radio"
+                  name={`attendance-${index}`}
+                  value="Present"
+                  onChange={(e) => handleInputChange(index, e)}
+                /> Present
+                <input
+                  type="radio"
+                  name={`attendance-${index}`}
+                  value="Absent"
+                  onChange={(e) => handleInputChange(index, e)}
+                /> Absent
+              </td>
+              <td>
+                <input
+                  type="radio"
+                  name={`sickleave-${index}`}
+                  value="true"
+                  onChange={(e) => handleInputChange(index, e)}
+                  disabled={formData[index]?.[`attendance-${index}`] !== "Absent"}
+                /> Yes
+                <input
+                  type="radio"
+                  name={`sickleave-${index}`}
+                  value="false"
+                  onChange={(e) => handleInputChange(index, e)}
+                  disabled={formData[index]?.[`attendance-${index}`] !== "Absent"}
+                /> No
+              </td>
+              <td>
+                <input
+                  type="radio"
+                  name={`casualleave-${index}`}
+                  value="true"
+                  onChange={(e) => handleInputChange(index, e)}
+                  disabled={formData[index]?.[`attendance-${index}`] !== "Absent"}
+                /> Yes
+                <input
+                  type="radio"
+                  name={`casualleave-${index}`}
+                  value="false"
+                  onChange={(e) => handleInputChange(index, e)}
+                  disabled={formData[index]?.[`attendance-${index}`] !== "Absent"}
+                /> No
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+      <Button onClick={handleSubmit}>Submit</Button>
     </div>
   );
 }
