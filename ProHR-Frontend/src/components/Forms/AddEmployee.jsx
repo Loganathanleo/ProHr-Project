@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Alert, Button, Form, FormLabel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import "../assets/stylesheets/AddEmployee.css"; // Import the new CSS file
+import "../../assets/stylesheets/addemployee.css"; // Import the new CSS file
 
 function AddEmployee() {
   const navigate = useNavigate();

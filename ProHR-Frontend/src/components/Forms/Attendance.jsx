@@ -7,7 +7,7 @@ function Attendance() {
   const [leaveType, setLeaveType] = useState("");
   const [remark, setRemark] = useState("");
   const [attendance, setAttendance] = useState("Present");
-  const { item } = location.state || {};
+  // const { item } = location.state || {};
 
   const handleAttendanceChange = (event) => {
     setAttendance(event.target.value);
