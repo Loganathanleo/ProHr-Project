@@ -7,7 +7,7 @@ const attendanceSchema = new mongoose.Schema({
     default: Date.now,
   },
   attendance: {
-    type: Number,
+    type: String,
   },
   sickleave: {
     type: Boolean,

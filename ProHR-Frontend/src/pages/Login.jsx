@@ -52,6 +52,7 @@ function Login() {
       .then((res) => {
         if (res.data) {
           navigate("/Home");
+          console.log(res.data)
         } else {
           setError("Invalid email or password");
         }
