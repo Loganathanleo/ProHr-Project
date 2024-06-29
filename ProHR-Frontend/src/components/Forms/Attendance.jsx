@@ -4,6 +4,7 @@ import { Table, Button } from "react-bootstrap";
 
 function Attendance() {
   const [data, setData] = useState([]);
+  const [formData, setFormData] = useState([]);
 
   useEffect(() => {
     axios.get("http://127.0.0.1:5000/api/employee").then((res) => {
@@ -11,20 +12,33 @@ function Attendance() {
     });
   }, []);
 
-  const [formData, setFormData] = useState([]);
-
   const handleInputChange = (index, event) => {
     const { name, value } = event.target;
     const updatedFormData = [...formData];
     if (!updatedFormData[index]) {
-      updatedFormData[index] = { employeeId: data[index]._id };
+      updatedFormData[index] = { 
+        employee_id: data[index]._id,
+      };
     }
     updatedFormData[index][name] = value;
+
+    if (name === `attendance-${index}` && value === "Present") {
+      updatedFormData[index][`sickleave-${index}`] = "false";
+      updatedFormData[index][`casualleave-${index}`] = "false";
+    }
+
     setFormData(updatedFormData);
   };
 
   const handleSubmit = () => {
-    axios.post("http://127.0.0.1:5000/api/attendance", formData).then((res) => {
+    const formattedData = formData.map((entry) => ({
+      employee_id: entry.employee_id,
+      attendance: entry[`attendance-${data.findIndex(emp => emp._id === entry.employee_id)}`],
+      sickleave: entry[`sickleave-${data.findIndex(emp => emp._id === entry.employee_id)}`] === "true",
+      casualleave: entry[`casualleave-${data.findIndex(emp => emp._id === entry.employee_id)}`] === "true"
+    }));
+
+    axios.post("http://127.0.0.1:5000/api/attendance", formattedData).then((res) => {
       console.log("Data submitted successfully:", res.data);
     }).catch((err) => {
       console.error("Error submitting data:", err);
@@ -40,7 +54,6 @@ function Attendance() {
             <th>Attendance</th>
             <th>Sick Leave</th>
             <th>Casual Leave</th>
-            <th>Remark</th>
           </tr>
         </thead>
         <tbody>
@@ -64,14 +77,14 @@ function Attendance() {
               <td>
                 <input
                   type="radio"
-                  name={`sickLeave-${index}`}
+                  name={`sickleave-${index}`}
                   value="true"
                   onChange={(e) => handleInputChange(index, e)}
                   disabled={formData[index]?.[`attendance-${index}`] !== "Absent"}
                 /> Yes
                 <input
                   type="radio"
-                  name={`sickLeave-${index}`}
+                  name={`sickleave-${index}`}
                   value="false"
                   onChange={(e) => handleInputChange(index, e)}
                   disabled={formData[index]?.[`attendance-${index}`] !== "Absent"}
@@ -80,25 +93,18 @@ function Attendance() {
               <td>
                 <input
                   type="radio"
-                  name={`casualLeave-${index}`}
+                  name={`casualleave-${index}`}
                   value="true"
                   onChange={(e) => handleInputChange(index, e)}
                   disabled={formData[index]?.[`attendance-${index}`] !== "Absent"}
                 /> Yes
                 <input
                   type="radio"
-                  name={`casualLeave-${index}`}
+                  name={`casualleave-${index}`}
                   value="false"
                   onChange={(e) => handleInputChange(index, e)}
                   disabled={formData[index]?.[`attendance-${index}`] !== "Absent"}
                 /> No
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name={`remark-${index}`}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
               </td>
             </tr>
           ))}
