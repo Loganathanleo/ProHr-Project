@@ -32,12 +32,15 @@ function Attendance() {
   };
 
   const handleSubmit = () => {
+    
     const formattedData = formData.map((entry) => ({
       employee_id: entry.employee_id,
       attendance: entry[`attendance-${data.findIndex(emp => emp._id === entry.employee_id)}`],
       sickleave: entry[`sickleave-${data.findIndex(emp => emp._id === entry.employee_id)}`] === "true",
       casualleave: entry[`casualleave-${data.findIndex(emp => emp._id === entry.employee_id)}`] === "true"
     }));
+
+    console.log(formattedData, "++++++++++");
 
     axios.post("http://127.0.0.1:5000/api/attendance", formattedData).then((res) => {
       console.log("Data submitted successfully:", res.data);

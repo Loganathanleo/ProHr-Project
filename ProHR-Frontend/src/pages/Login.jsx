@@ -3,10 +3,12 @@ import "../assets/stylesheets/Login.css";
 import { Button, Form, FormGroup, FormLabel, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from '../contexts/Authcontext';
 
 function Login() {
   const [signin, setSignin] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -51,8 +53,9 @@ function Login() {
       .post("http://127.0.0.1:5000/api/login", loginData)
       .then((res) => {
         if (res.data) {
+          login();
           navigate("/Home");
-          console.log(res.data)
+          console.log(res.data);
         } else {
           setError("Invalid email or password");
         }
@@ -69,10 +72,8 @@ function Login() {
       style={{ height: "100vh" }}
     >
       {!signin && (
-        
         <div className="form-container w-50">
-              <h1>HR PORTAL</h1>
-
+          <h1>HR PORTAL</h1>
           <h3 className="text">Register yourself</h3>
           <Form onSubmit={handleSubmit}>
             <FormGroup as={Row}>
@@ -177,8 +178,7 @@ function Login() {
 
       {signin && (
         <div className="form-container w-50">
-                        <h1>HR PORTAL</h1>
-
+          <h1>HR PORTAL</h1>
           <h3 className="text">Login please!!!</h3>
           <Form onSubmit={handleSignin}>
             <FormGroup as={Row}>
