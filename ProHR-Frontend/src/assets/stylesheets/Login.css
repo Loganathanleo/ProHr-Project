@@ -5,14 +5,14 @@ body {
   }
   
   .text {
-    color: #007bff;
+    color: #072e58;
   }
   
   .form-container {
-    background-color: white;
+    background-color: rgb(113, 165, 214);
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(210, 97, 236, 0.1);
   }
   
   .form-container h3 {
@@ -28,7 +28,7 @@ body {
   }
   
   .form-container .btn {
-    background-color: #496f98;
+    background-color: #1379e6;
     color: white;
     border-radius: 5px;
     padding: 10px 20px;

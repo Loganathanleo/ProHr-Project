@@ -43,7 +43,7 @@ function AddEmployee() {
 
   return (
     <div className="container">
-      <h3>Add Employee</h3>
+      <h3>ADD EMPLOYEE</h3>
       {successMessage && <Alert variant="success" className="alert">{successMessage}</Alert>}
       {errorMessage && <Alert variant="danger" className="alert">{errorMessage}</Alert>}
       <Form onSubmit={handleSubmit}>

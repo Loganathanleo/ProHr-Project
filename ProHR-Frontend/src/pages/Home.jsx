@@ -37,24 +37,27 @@ function Home() {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container1">
       <div className="w-100">
         <h1 className="text-center mb-4">
+
           <Greeting />
         </h1>
         <div className="text-center mb-4">
-          <Button className="btn btn-primary" onClick={handleAdd}>
+          <Button className="button-24" onClick={handleAdd}>
             Add Employee +
           </Button>
         </div>
       </div>
-      <div className="text-center mb-4">
-        <Button variant="link" onClick={() => setAttendance(false)}>
+      <div className="">
+
+        <Button className="button-24" variant="link" onClick={() => setAttendance(false)}>
           Employee Details
         </Button>
-        <Button variant="link" onClick={() => setAttendance(true)}>
+        <Button className="button-24" variant="link" onClick={() => setAttendance(true)}>
           Attendance
         </Button>
+
       </div>
       {!attendance && (
         <div>

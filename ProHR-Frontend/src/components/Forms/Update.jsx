@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Alert, Button, Form, FormLabel } from "react-bootstrap";
+import "../../assets/stylesheets/update.css";
 
 function Update() {
   const location = useLocation();
@@ -50,6 +51,7 @@ function Update() {
       <h3>Update Employee</h3>
       {successMessage && <Alert variant="success">{successMessage}</Alert>}
       {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+      <div classname="formdiv">
       <Form onSubmit={handleSubmit}>
         <div>
           <FormLabel htmlFor="name">Employee Name :</FormLabel>
@@ -114,8 +116,10 @@ function Update() {
             required
           />
         </div>
+        <br></br>
         <Button type="submit">Update</Button>
       </Form>
+      </div>
     </div>
   );
 }

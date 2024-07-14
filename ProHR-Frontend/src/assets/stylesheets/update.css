@@ -1,60 +1,94 @@
 /* Update.css */
 body {
-    background-color: #f8f9fa;
-    font-family: Arial, sans-serif;
-  }
+  background-color: #0b0c0c;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  background-color: #0e0e0e;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+h3 {
+  color: #ecf1f5;
+  background-color: #0b0c0c;
   
+  text-align: center;
+
+  margin-bottom: 20px;
+}
+.formdiv{
+  margin-left: 17px;
+  flex: content;
+  margin-bottom: 5px;
+  padding:5px;
+
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-label {
+  font-weight: bold;
+  color:antiquewhite;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  margin-bottom: 10px;
+}
+
+.button {
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  color: #ffffff;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.alert {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
   .container {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    max-width: 600px;
-    margin: auto;
+      padding: 20px;
   }
-  
+
   h3 {
-    color: #007bff;
-    text-align: center;
-    margin-bottom: 20px;
+      font-size: 1.5rem;
   }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-  }
-  
+
   .input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ced4da;
+      padding: 8px;
   }
-  
+
   .button {
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    color: #ffffff;
-    cursor: pointer;
-    display: block;
-    margin: 20px auto;
-    width: 100%;
-    text-align: center;
+      padding: 10px;
   }
-  
-  .button:hover {
-    background-color: #0056b3;
-  }
-  
-  .alert {
-    margin-bottom: 20px;
-  }
-  
+}
