@@ -37,7 +37,7 @@ function Home() {
   }, []);
 
   return (
-    <div className="container1">
+    <div className="container2">
       <div className="w-100">
         <h1 className="text-center mb-4">
 

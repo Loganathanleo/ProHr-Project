@@ -73,7 +73,7 @@ function Login() {
       style={{ height: "100vh" }}
     >
       {!signin && (
-        <div className="form-container w-50">
+        <div className="form-container">
           <h1>HR PORTAL</h1>
           <h3 className="text">Register yourself</h3>
           <Form onSubmit={handleSubmit}>
@@ -178,9 +178,9 @@ function Login() {
       )}
 
       {signin && (
-        <div className="form-container w-50">
+        <div className="form-container">
           <h1>HR PORTAL</h1>
-          <h3 className="text">Login please!!!</h3>
+          <h3 className="text1">Login please!!!</h3>
           <Form onSubmit={handleSignin}>
             <FormGroup as={Row}>
               <FormLabel column sm={3} htmlFor="email">

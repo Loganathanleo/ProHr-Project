@@ -42,80 +42,80 @@ function AddEmployee() {
   };
 
   return (
-    <div className="container">
-      <h3>ADD EMPLOYEE</h3>
-      {successMessage && <Alert variant="success" className="alert">{successMessage}</Alert>}
-      {errorMessage && <Alert variant="danger" className="alert">{errorMessage}</Alert>}
-      <Form onSubmit={handleSubmit}>
-        <div className="form-group">
+    <div className="add-container">
+      <h3 className="add-h3">ADD EMPLOYEE</h3>
+      {successMessage && <Alert variant="success" className="add-alert">{successMessage}</Alert>}
+      {errorMessage && <Alert variant="danger" className="add-alert">{errorMessage}</Alert>}
+      <Form onSubmit={handleSubmit} className="add-form">
+        <div className="add-form-group">
           <FormLabel htmlFor="name" className="form-label">Employee Name :</FormLabel>
           <input
             type="text"
             id="name"
-            className="input"
+            className="input1"
             placeholder="Enter the employee name"
             onChange={handleChange}
             required
           />
         </div>
-        <div className="form-group">
+        <div className="add-form-group">
           <FormLabel htmlFor="dob" className="form-label">Date of Birth :</FormLabel>
-          <input type="date" id="dob" className="input" onChange={handleChange} />
+          <input type="date" id="dob" className="input1" onChange={handleChange} />
         </div>
-        <div className="form-group">
+        <div className="add-form-group">
           <FormLabel htmlFor="contactno" className="form-label">Contact No :</FormLabel>
           <input
             type="tel"
             id="contactno"
-            className="input"
+            className="input1"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             onChange={handleChange}
             required
           />
         </div>
-        <div className="form-group">
+        <div className="add-form-group">
           <FormLabel htmlFor="jobrole" className="form-label">Role :</FormLabel>
           <input
             type="text"
             id="jobrole"
-            className="input"
+            className="input1"
             onChange={handleChange}
             required
           />
         </div>
-        <div className="form-group">
+        <div className="add-form-group">
           <FormLabel htmlFor="email" className="form-label">Email :</FormLabel>
           <input
             type="email"
             id="email"
-            className="input"
+            className="input1"
             placeholder="Enter email address"
             onChange={handleChange}
             required
           />
         </div>
-        <div className="form-group">
+        <div className="add-form-group">
           <FormLabel htmlFor="company_email" className="form-label">Company Email :</FormLabel>
           <input
             type="email"
             id="company_email"
-            className="input"
+            className="input1"
             placeholder="Enter company email address"
             onChange={handleChange}
             required
           />
         </div>
-        <div className="form-group">
+        <div className="add-form-group">
           <FormLabel htmlFor="aadharno" className="form-label">Aadhaar :</FormLabel>
           <input
             type="text"
             id="aadharno"
-            className="input"
+            className="input1"
             onChange={handleChange}
             required
           />
         </div>
-        <Button className="button" type="submit">Sign Up</Button>
+        <Button className="add-button" type="submit">Sign Up</Button>
       </Form>
     </div>
   );

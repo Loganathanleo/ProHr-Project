@@ -47,7 +47,7 @@ function Update() {
   };
 
   return (
-    <div>
+    <div classname="up-container">
       <h3>Update Employee</h3>
       {successMessage && <Alert variant="success">{successMessage}</Alert>}
       {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
